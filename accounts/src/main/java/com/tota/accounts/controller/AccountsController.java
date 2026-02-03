@@ -5,6 +5,10 @@ import com.tota.accounts.dto.ResponseDto;
 import com.tota.accounts.service.IAccountsService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +17,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
 @Validated
 public class AccountsController {
 
     private final IAccountsService accountsService;
+
+    @Value("${build.version}")
+    private  String buildVersion;
+
+    private Environment environment;
+    public AccountsController(IAccountsService accountsService) {
+        this.accountsService = accountsService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
@@ -50,5 +61,10 @@ public class AccountsController {
         } else{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto("500","Account deletion failed") );
         }
+    }
+
+    @GetMapping("/buildinfo")
+    public ResponseEntity<String> getBuildInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
     }
 }

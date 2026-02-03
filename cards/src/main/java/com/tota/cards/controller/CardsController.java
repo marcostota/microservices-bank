@@ -4,7 +4,8 @@ import com.tota.cards.dto.CardsDto;
 import com.tota.cards.dto.ResponseDto;
 import com.tota.cards.service.IcardsService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api", produces =  {MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
 @Validated
 public class CardsController {
 
 
-    private IcardsService cardsService;
+    @Value("${build.version}")
+    private String buildVersion;
+
+    private final IcardsService cardsService;
+
+    public CardsController(IcardsService cardsService) {
+        this.cardsService = cardsService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createCard(@Valid @RequestParam String mobileNumber){
@@ -52,5 +59,9 @@ public class CardsController {
         }
     }
 
+    @GetMapping("/buildinfo")
+    public ResponseEntity<String> buildInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+    }
 
 }

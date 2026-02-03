@@ -3,7 +3,7 @@ package com.tota.loan.controller;
 import com.tota.loan.dto.LoansDto;
 import com.tota.loan.dto.ResponseDto;
 import com.tota.loan.service.LoanService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -11,11 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path="/api", produces = "application/json")
-@AllArgsConstructor
 @Validated
 public class LoansController {
 
-    private LoanService loanService;
+    @Value("${build.version}")
+    private String buildVersion;
+
+    private final LoanService loanService;
+
+    public LoansController(LoanService loanService) {
+        this.loanService = loanService;
+    }
+
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createLoan(@RequestParam String mobileNumber){
@@ -48,4 +55,10 @@ public class LoansController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto("400", "Failed to delete loan"));
         }
     }
+
+    @GetMapping("/buildinfo")
+    public ResponseEntity<String> getBuildInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body( buildVersion);
+    }
+
 }
