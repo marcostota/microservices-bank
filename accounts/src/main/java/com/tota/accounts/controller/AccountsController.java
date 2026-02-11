@@ -1,5 +1,6 @@
 package com.tota.accounts.controller;
 
+import com.tota.accounts.dto.AccountsContactInfoDto;
 import com.tota.accounts.dto.CustomerDto;
 import com.tota.accounts.dto.ResponseDto;
 import com.tota.accounts.service.IAccountsService;
@@ -26,8 +27,12 @@ public class AccountsController {
     private  String buildVersion;
 
     private Environment environment;
-    public AccountsController(IAccountsService accountsService) {
+
+    private AccountsContactInfoDto accountsContactInfoDto;
+
+    public AccountsController(IAccountsService accountsService, AccountsContactInfoDto accountsContactInfoDto) {
         this.accountsService = accountsService;
+        this.accountsContactInfoDto = accountsContactInfoDto;
     }
 
     @PostMapping("/create")
@@ -66,5 +71,10 @@ public class AccountsController {
     @GetMapping("/buildinfo")
     public ResponseEntity<String> getBuildInfo(){
         return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<AccountsContactInfoDto> getContactInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(accountsContactInfoDto);
     }
 }
