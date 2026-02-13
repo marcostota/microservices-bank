@@ -28,7 +28,7 @@ public class AccountsController {
 
     private Environment environment;
 
-    private AccountsContactInfoDto accountsContactInfoDto;
+    private final AccountsContactInfoDto accountsContactInfoDto;
 
     public AccountsController(IAccountsService accountsService, AccountsContactInfoDto accountsContactInfoDto) {
         this.accountsService = accountsService;
