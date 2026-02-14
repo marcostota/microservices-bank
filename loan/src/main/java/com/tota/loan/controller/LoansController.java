@@ -1,5 +1,6 @@
 package com.tota.loan.controller;
 
+import com.tota.loan.dto.LoansContactInfoDto;
 import com.tota.loan.dto.LoansDto;
 import com.tota.loan.dto.ResponseDto;
 import com.tota.loan.service.LoanService;
@@ -19,8 +20,11 @@ public class LoansController {
 
     private final LoanService loanService;
 
-    public LoansController(LoanService loanService) {
+    private final LoansContactInfoDto loansContactInfoDto;
+
+    public LoansController(LoanService loanService, LoansContactInfoDto loansContactInfoDto) {
         this.loanService = loanService;
+        this.loansContactInfoDto = loansContactInfoDto;
     }
 
 
@@ -56,9 +60,13 @@ public class LoansController {
         }
     }
 
-    @GetMapping("/buildinfo")
+    @GetMapping("/buidinfo")
     public ResponseEntity<String> getBuildInfo(){
         return ResponseEntity.status(HttpStatus.OK).body( buildVersion);
     }
 
+    @GetMapping("/contact-info")
+    public ResponseEntity<LoansContactInfoDto> getContactInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(loansContactInfoDto);
+    }
 }

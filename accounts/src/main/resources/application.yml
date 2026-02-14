@@ -26,8 +26,8 @@ spring:
     username: "guest"
     password: "guest"
 
-    management:
-      endpoints:
-        weeb:
-          exposure:
-            include: "*"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

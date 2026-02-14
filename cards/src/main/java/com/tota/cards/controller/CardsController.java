@@ -1,5 +1,6 @@
 package com.tota.cards.controller;
 
+import com.tota.cards.dto.CardsContactInfoDto;
 import com.tota.cards.dto.CardsDto;
 import com.tota.cards.dto.ResponseDto;
 import com.tota.cards.service.IcardsService;
@@ -17,14 +18,16 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class CardsController {
 
+    private final IcardsService cardsService;
 
     @Value("${build.version}")
     private String buildVersion;
 
-    private final IcardsService cardsService;
+    private final CardsContactInfoDto cardsContactInfoDto;
 
-    public CardsController(IcardsService cardsService) {
+    public CardsController(IcardsService cardsService, CardsContactInfoDto cardsContactInfoDto) {
         this.cardsService = cardsService;
+        this.cardsContactInfoDto = cardsContactInfoDto;
     }
 
     @PostMapping("/create")
@@ -64,4 +67,8 @@ public class CardsController {
         return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
     }
 
+    @GetMapping("/contact-info")
+    public ResponseEntity<CardsContactInfoDto> getContactInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(cardsContactInfoDto);
+    }
 }

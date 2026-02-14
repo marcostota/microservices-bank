@@ -1,9 +1,8 @@
-build:    @GetMapping("/contact-info")
-
+build:
   version: "3.0"
 
-accounts:
-  message: "Welcome to EazyBank accounts related local APIs "
+cards:
+  message: "Welcome to EazyBank cards related local APIs "
   contactDetails:
     name: "John Doe - Developer"
     email: "john@eazybank.com"
