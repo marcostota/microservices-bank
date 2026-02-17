@@ -18,11 +18,11 @@ spring:
     username: "guest"
     password: "guest"
 
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: "*"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
   health:
     readiness-state:
       enabled: true
